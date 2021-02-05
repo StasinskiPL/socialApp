@@ -1,21 +1,23 @@
-import React from 'react'
-import {Route,Redirect} from "react-router-dom"
-import { auth } from '../firebase'
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { auth } from "../firebase";
 
-interface Props{
-    component: typeof React.Component
+interface Props {
+  component: React.ElementType;
+  path:string
 }
 
-const PrivateRoute:React.FC<Props> = ({component:Component,...rest}) => {
-    const isAuth = auth.currentUser;
-    return (
-       <Route {...rest} render={props=> isAuth ? <Component {...props}/> :(
-           <Redirect to="/login"/>
-       )}>
+const PrivateRoute: React.FC<Props> = ({ component: Component, ...rest }) => {
+  const isAuth = auth.currentUser;
+  console.log(isAuth)
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuth ? <Component {...props} /> : <Redirect to="/logowanie" />
+      }
+    />
+  );
+};
 
-       </Route>
-
-    )
-}
-
-export default PrivateRoute
+export default PrivateRoute;
