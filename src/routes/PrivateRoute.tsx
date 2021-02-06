@@ -9,7 +9,6 @@ interface Props {
 
 const PrivateRoute: React.FC<Props> = ({ component: Component, ...rest }) => {
   const isAuth = auth.currentUser;
-  console.log(isAuth)
   return (
     <Route
       {...rest}

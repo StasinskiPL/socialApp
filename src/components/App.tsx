@@ -7,6 +7,7 @@ import { auth, db } from "../firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
+import "../style/main.scss";
 const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 
@@ -33,7 +34,7 @@ function App() {
   });
   if(loading){
     return (
-      <Container className="w-100 d-flex justify-context-center">
+      <Container className="w-100 d-flex justify-content-center align-items-center loadingBox">
         <Loading/>
       </Container>
     )
