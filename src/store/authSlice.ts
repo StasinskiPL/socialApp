@@ -68,8 +68,8 @@ const registerUser = createAsyncThunk(
     }
     if (data && data.user) {
         await db
-        .collection("users")
-        .add({ id: data.user.uid, nick: nick });
+        .collection("users").doc(data.user.uid)
+        .set({ nick: nick });
       return {nick:nick,id:data.user.uid};
     }
   }

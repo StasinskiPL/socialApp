@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import {Route, Switch } from "react-router-dom";
 import { lazy, Suspense, useState } from "react";
 import PrivateRoute from "../routes/PrivateRoute";
 import Dashboard from "./dashboard/Dashboard";
@@ -13,44 +13,44 @@ const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 
 function App() {
-  const [loading,setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   auth.onAuthStateChanged((user) => {
     if (user) {
       db.collection("users")
-        .where("id", "==", user.uid)
-        .limit(1)
+        .doc(user.uid)
         .get()
         .then((doc) => {
-          dispatch(
-            setUser({ nick: doc.docs[0].data().nick, userId: user.uid })
-            );
-            setLoading(false);
+          const data = doc.data();
+          if (data) {
+            const { nick } = data;
+            dispatch(setUser({ nick, userId: user.uid }));
+          }
+          setLoading(false);
         });
     } else {
       dispatch(setUser({ nick: null, userId: null }));
-      setLoading(false)
+      setLoading(false);
     }
   });
-  if(loading){
+  if (loading) {
     return (
       <Container className="w-100 d-flex justify-content-center align-items-center loadingBox">
-        <Loading/>
+        <Loading />
       </Container>
-    )
+    );
   }
 
   return (
-    <main>
+    <main className="bg-light">
       <Switch>
         <Suspense fallback={<Loading />}>
           <Route path="/rejestracja" render={() => <Registration />} />
           <Route path="/logowanie" render={() => <Login />} />
-          <PrivateRoute path="/user/:nick"  component={Profil}  />
-          <PrivateRoute path="/" exact  component={Dashboard} />
+          <PrivateRoute path="/user/:nick" component={Profil} />
+          <PrivateRoute path="/" exact component={Dashboard} />
           {/* <PrivateRoute path="/post/:id"  component={Dashboard}  /> */}
-
         </Suspense>
       </Switch>
     </main>

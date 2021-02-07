@@ -8,7 +8,7 @@ interface Props{
 
 const NavbarSearch:React.FC<Props> = ({width}) => {
   return (
-    <Form inline className={`bg-light w-100 ${width < 480 ? "p-2" : null}`}>
+    <Form inline className={`bg-light w-100 ${width < 480 ? "p-3" : null}`}>
         <InputGroup className="w-100">
           <FormControl type="text" placeholder="Search" className="rounded-0" />
           <InputGroup.Append>

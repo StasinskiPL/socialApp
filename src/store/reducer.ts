@@ -1,10 +1,12 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
-import { userSlice } from "./userSlice";
+import { postSlice } from "./postSlice";
+// import { userSlice } from "./userSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
-  user: userSlice.reducer,
+  posts: postSlice.reducer,
+  // user: userSlice.reducer,
 });
 
 export default configureStore({

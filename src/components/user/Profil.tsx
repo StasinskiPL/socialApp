@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from "../navbar/Navbar";
 import "./profil.scss"
+import ProfilBody from './ProfilBody';
 import ProfilHeader from './ProfilHeader';
 
 const Profil = () => {
@@ -8,6 +9,7 @@ const Profil = () => {
        <>
        <Navbar/>
        <ProfilHeader/>
+       <ProfilBody/>
        </>
     )
 }
