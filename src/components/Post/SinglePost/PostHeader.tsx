@@ -3,11 +3,16 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useUserAvatar from "../../../hooks/useUserAvatar";
 import avatarUrl from "../../../assets/images/avatar.png";
+import moment from "moment";
 
 interface Props {
   authorId: string;
   date: number;
   userNick: string;
+}
+
+const mapDate = (date:number)=>{
+    return moment(date).fromNow()
 }
 
 const PostHeader: React.FC<Props> = ({ date, authorId, userNick }) => {
@@ -22,7 +27,7 @@ const PostHeader: React.FC<Props> = ({ date, authorId, userNick }) => {
         <Link to={`/user/${userNick}`} className="h3 text-dark">
           {userNick}
         </Link>
-        <p className="mb-0">{date}</p>
+        <p className="mb-0">{mapDate(date)}</p>
       </div>
     </Card.Header>
   );

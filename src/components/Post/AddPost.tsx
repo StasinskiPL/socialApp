@@ -18,7 +18,7 @@ const AddPost = () => {
             text: text,
             authorId: userId as string,
             date: new Date().getTime(),
-            likes: 0,
+            likes: [],
             id:uuid(),
             userNick:userNick as string,
           }

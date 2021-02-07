@@ -5,12 +5,12 @@ import PostFooter from './PostFooter'
 import PostHeader from './PostHeader'
 
 
-const SinglePost:React.FC<Post> = ({authorId,date,likes,text,userNick}) => {
+const SinglePost:React.FC<Post> = ({id,authorId,date,likes,text,userNick}) => {
     return (
         <Card className="mt-3">
         <PostHeader authorId={authorId} date={date} userNick={userNick} />
         <PostBody text={text}/>
-        <PostFooter likes={likes}/>
+        <PostFooter postId={id} likes={likes.length}/>
       </Card>
     )
 }

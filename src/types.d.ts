@@ -2,7 +2,7 @@ interface Post{
     date:number,
     text:string,
     authorId: string,
-    likes:number,
+    likes:string[],
     id:string,
     userNick:string,
 }
