@@ -91,6 +91,12 @@ export const authSlice = createSlice({
       state.userId = payload.userId;
       state.userNick = payload.nick;
     },
+    logOut:(state)=>{
+      auth.signOut()
+      state.logged= false;
+      state.userId = null;
+      state.userNick = null;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
@@ -135,4 +141,4 @@ export const authSlice = createSlice({
 });
 
 export { loginUser, registerUser };
-export const {setUser} = authSlice.actions
+export const {setUser,logOut} = authSlice.actions

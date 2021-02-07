@@ -1,0 +1,57 @@
+.profil {
+    max-width: 1200px;
+    &-bg {
+        height: 200px;
+        width: 100%;
+        background: url("../../assets/images/bg-image.png") center/cover;
+    }
+    &__avatar {
+        position: relative;
+        & .own{
+            cursor: pointer;
+            &:hover{
+
+                .profil__avatar-file label{
+                    opacity: 1;
+                }
+            }
+        }
+        &-img {
+            position: absolute;
+            background-color: white;
+            top: -80px;
+            left: calc(50% - 80px);
+            border-radius: 50%;
+            border: 3px solid white;
+            overflow: hidden;
+            img {
+                width: 160px;
+                height: 160px;
+                object-fit: cover;
+            }
+        }
+        &-file{
+            position: absolute;
+            top:50%;
+            left: 50%;
+            label{
+                transform: translate(-50%,-50%);
+                font-size: 2rem;
+                opacity: 0;
+                transition: opacity 0.3s;
+                cursor: pointer;
+            }
+            input{
+                display: none;
+            }
+        }
+        &-loading{
+            position: absolute;
+            top: -40px;
+            left: calc(50% - 50px);
+            border-radius: 50%;
+            background-color: white;
+            border: 3px solid white;
+        }
+    }
+}

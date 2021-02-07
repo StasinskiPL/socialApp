@@ -1,19 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
-import { auth } from "../firebase";
+import { RootState } from "../store/reducer";
 
-interface Props {
-  component: React.ElementType;
-  path:string
-}
+// interface Props  {
+//   component: React.ElementType;
+//   path:string;
+// }
 
-const PrivateRoute: React.FC<Props> = ({ component: Component, ...rest }) => {
-  const isAuth = auth.currentUser;
+const PrivateRoute: React.FC<any> = ({ component: Component, ...rest }) => {
+  const {logged} = useSelector((state:RootState) => state.auth)
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuth ? <Component {...props} /> : <Redirect to="/logowanie" />
+        logged ? <Component {...props} /> : <Redirect to="/logowanie" />
       }
     />
   );

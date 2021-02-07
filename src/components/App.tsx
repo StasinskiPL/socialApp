@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
 import "../style/main.scss";
+import Profil from "./user/Profil";
 const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 
@@ -46,11 +47,10 @@ function App() {
         <Suspense fallback={<Loading />}>
           <Route path="/rejestracja" render={() => <Registration />} />
           <Route path="/logowanie" render={() => <Login />} />
-          <PrivateRoute path="/" component={Dashboard} />
+          <PrivateRoute path="/user/:nick"  component={Profil}  />
+          <PrivateRoute path="/" exact  component={Dashboard} />
           {/* <PrivateRoute path="/post/:id"  component={Dashboard}  /> */}
-          {/* <PrivateRoute path="/user/:id"  component={Dashboard}  /> */}
 
-          <Redirect to="/logowanie" />
         </Suspense>
       </Switch>
     </main>

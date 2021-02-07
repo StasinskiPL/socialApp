@@ -11,19 +11,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const formRef = useRef<HTMLFormElement>(null!);
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
-  const { loading, error,logged } = useSelector((state: RootState) => state.auth);
+  const { loading, error, logged } = useSelector(
+    (state: RootState) => state.auth
+  );
 
-  useEffect(()=>{
-      if(logged){
-          history.push('/')
-      }
-  },[logged,history])
+  useEffect(() => {
+    if (logged) {
+      history.push("/");
+    }
+  }, [logged, history]);
 
   const loginUserHandler = (e: React.FormEvent) => {
     e.preventDefault();
-      dispatch(loginUser({ email: email.trim(), password: password.trim() }));
+    dispatch(loginUser({ email: email.trim(), password: password.trim() }));
     formRef.current.reset();
   };
 
