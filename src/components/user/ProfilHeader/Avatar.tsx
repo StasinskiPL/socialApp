@@ -6,13 +6,15 @@ import { RootState } from "../../../store/reducer";
 import { MdPhotoCamera } from "react-icons/md";
 import { db, storage } from "../../../firebase";
 import Loading from "../../ui/Loading";
+import useUserAvatar from "../../../hooks/useUserAvatar";
 
 const Avatar: React.FC = () => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  // const [imageUrl, setImageUrl] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(false);
   const [isOwnProfil, setIsOwnProfil] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null!);
   const { userNick,userId } = useSelector((state: RootState) => state.auth);
+  const {imageUrl,loading,saveImageToDB} = useUserAvatar(userId || "")
   const { nick }: { nick: string } = useParams();
 
   useEffect(() => {
@@ -30,44 +32,12 @@ const Avatar: React.FC = () => {
   const handlerUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      if (file.size > 1200000) {
-        return alert("Avatar może mieć maksymalnie 1mb.");
+      if (file.size > 2200000) {
+        return alert("Avatar może mieć maksymalnie 2mb.");
       }
-      setLoading(true);
-      storage
-        .ref(`/files/avatar/${userNick}`)
-        .put(file)
-        .then((res) => {
-          res.ref.getDownloadURL().then((url) => {
-            if(userId){
-              db.collection("users").doc(userId).update({
-                avatarUrl: url
-              })
-            }
-            setLoading(false);
-            setImageUrl(url);
-          });
-        });
+      saveImageToDB(file,nick)
     }
   };
-
-  // get avatar from db
-  useEffect(() => {
-    setLoading(true);
-    if(userId){
-      db.collection("users").doc(userId).get()
-      .then((doc) => {
-        const data = doc.data();
-        if (data) {
-          const { avatarUrl } = data;
-          setImageUrl(avatarUrl)
-        }
-        setLoading(false);
-      }).catch(err=>{
-        setLoading(false)
-      });
-    }
-  }, [userId]);
 
   if (loading) {
     return (

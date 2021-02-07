@@ -1,12 +1,6 @@
 import React from 'react'
 import SinglePost from './SinglePost'
 
-interface Post{
-    date:number,
-    text:string,
-    authorId: string,
-    likes:number,
-}
 
 interface Props{
     posts: Post[]

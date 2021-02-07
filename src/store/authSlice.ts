@@ -33,11 +33,13 @@ const loginUser = createAsyncThunk(
     const data = await auth.signInWithEmailAndPassword(email, password);
     if (data.user) {
       const user = await db
-        .collection("users")
-        .where("id", "==", data.user.uid)
-        .limit(1)
+        .collection("users").doc(data.user.uid)
         .get();
-      return user.docs[0].data();
+        if(user){
+          return user.data();
+        }else{
+          throw new Error("Login Error");
+        }
     } else {
       throw new Error("Login Error");
     }
@@ -104,8 +106,10 @@ export const authSlice = createSlice({
       state.error = false;
     });
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-      state.userId = payload.id;
-      state.userNick = payload.nick;
+      if(payload && payload.id && payload.nick){
+        state.userId = payload.id;
+        state.userNick = payload.nick;
+      }
       state.loading = false;
       state.logged = true;
       state.error = false;
