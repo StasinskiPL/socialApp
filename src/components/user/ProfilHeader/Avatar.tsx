@@ -1,22 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import avaratUrl from "../../../assets/images/avatar.png";
+import avatarUrl from "../../../assets/images/avatar.png";
 import { RootState } from "../../../store/reducer";
 import { MdPhotoCamera } from "react-icons/md";
-import { db, storage } from "../../../firebase";
 import Loading from "../../ui/Loading";
 import useUserAvatar from "../../../hooks/useUserAvatar";
+import { getUserId } from "../../../store/userSlice";
 
 const Avatar: React.FC = () => {
-  // const [imageUrl, setImageUrl] = useState<string | null>(null);
-  // const [loading, setLoading] = useState(false);
   const [isOwnProfil, setIsOwnProfil] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null!);
-  const { userNick,userId } = useSelector((state: RootState) => state.auth);
-  const {imageUrl,loading,saveImageToDB} = useUserAvatar(userId || "")
+  const { userNick} = useSelector((state: RootState) => state.auth);
+  const {profilUserId} = useSelector((state:RootState)=>state.user)
   const { nick }: { nick: string } = useParams();
+  const { imageUrl, loading, saveImageToDB } = useUserAvatar(profilUserId || "");
 
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(getUserId({nick}))
+  },[nick,dispatch])
+
+
+
+ 
   useEffect(() => {
     setIsOwnProfil(nick === userNick);
   }, [nick, userNick]);
@@ -27,15 +35,14 @@ const Avatar: React.FC = () => {
     }
   };
 
-
-// add avatar to db
+  // add avatar to db
   const handlerUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
       if (file.size > 2200000) {
         return alert("Avatar może mieć maksymalnie 2mb.");
       }
-      saveImageToDB(file,nick)
+      saveImageToDB(file, nick);
     }
   };
 
@@ -56,7 +63,7 @@ const Avatar: React.FC = () => {
         className={`profil__avatar-img ${isOwnProfil && "own"}`}
         onClick={clickFileInput}
       >
-        <img src={imageUrl ? imageUrl : avaratUrl} alt="avatar"></img>
+        <img src={imageUrl ? imageUrl : avatarUrl} alt="avatar"></img>
         {isOwnProfil && (
           <>
             <div className="profil__avatar-file">

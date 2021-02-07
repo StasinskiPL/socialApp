@@ -1,24 +1,31 @@
 import React, { useState } from "react";
 import { Button, Card, Form, Tab, Tabs } from "react-bootstrap";
 import {FaShare} from "react-icons/fa"
-import { useSelector } from "react-redux";
-import { db } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/reducer";
+import { v4 as uuid } from 'uuid';
+import { addPost as AddPostAction } from "../../store/postSlice";
 
 const AddPost = () => {
     const [text,setText] = useState("")
 
-    const {userId} = useSelector((state:RootState)=>state.auth)
+    const {userId,userNick} = useSelector((state:RootState)=>state.auth)
+    const dispatch = useDispatch()
 
     const publishPostHandler = ()=>{
-        if(text.trim().length > 5){
-            db.collection("posts").add({
-                text: text,
-                authorId: userId,
-                date: new Date().getTime(),
-                likes: 0,
-            })
+        if(text.trim().length > 4){
+          const post = {
+            text: text,
+            authorId: userId as string,
+            date: new Date().getTime(),
+            likes: 0,
+            id:uuid(),
+            userNick:userNick as string,
+          }
+            dispatch(AddPostAction(post))
             setText("")
+        }else{
+          alert("post musi mieć conajmniej pięć znaków")
         }
     }
 

@@ -13,9 +13,8 @@ const Dashboard = () => {
 
     const dispatch = useDispatch()
     useEffect(()=>{
-        console.log("fetch")
         dispatch(fetchPosts())
-    })
+    },[dispatch])
     return (
         <>
         <Navbar/>

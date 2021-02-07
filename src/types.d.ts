@@ -3,4 +3,6 @@ interface Post{
     text:string,
     authorId: string,
     likes:number,
+    id:string,
+    userNick:string,
 }

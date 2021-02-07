@@ -1,5 +1,6 @@
 import React from 'react'
-import SinglePost from './SinglePost'
+import SinglePost from './SinglePost/index'
+import "./post.scss"
 
 
 interface Props{
