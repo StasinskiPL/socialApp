@@ -8,6 +8,8 @@ interface AuthTypes {
   userId: string | null;
   userNick: string | null;
   errorMessage: string | null;
+  userFollowing: string[],
+
 }
 interface LoginWithEmailAndPasswordTypes {
   email: string;
@@ -24,6 +26,7 @@ const initialState: AuthTypes = {
   logged: false,
   userId: null,
   userNick: null,
+  userFollowing: [],
   errorMessage: null,
 };
 
@@ -84,7 +87,7 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (
       state,
-      { payload }: PayloadAction<{ userId: string|null; nick: string|null }>
+      { payload }: PayloadAction<{ userId: string|null; nick: string|null,userFollowing:string[] }>
     ) => {
         if(payload.userId){
             state.logged = true;
@@ -93,6 +96,7 @@ export const authSlice = createSlice({
         }
       state.userId = payload.userId;
       state.userNick = payload.nick;
+      state.userFollowing = payload.userFollowing;
     },
     logOut:(state)=>{
       auth.signOut()

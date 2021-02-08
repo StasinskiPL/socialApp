@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import useUserAvatar from "../../../hooks/useUserAvatar";
 import avatarUrl from "../../../assets/images/avatar.png";
 import moment from "moment";
+import { db } from "../../../firebase";
 
 interface Props {
   authorId: string;
@@ -11,17 +11,32 @@ interface Props {
   userNick: string;
 }
 
-const mapDate = (date:number)=>{
-    return moment(date).fromNow()
-}
+const mapDate = (date: number) => {
+  return moment(date).fromNow();
+};
 
 const PostHeader: React.FC<Props> = ({ date, authorId, userNick }) => {
-  const { imageUrl } = useUserAvatar(authorId);
+  const [authorImg, setAuthorImage] = useState<null | string>(null);
+
+  useEffect(() => {
+    if (authorId) {
+      db.collection("users")
+        .doc(authorId)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          if (data) {
+            const { avatarUrl } = data;
+            setAuthorImage(avatarUrl);
+          }
+        });
+    }
+  }, [authorId]);
 
   return (
     <Card.Header className="d-flex pb-0 bg-white border-bottom-0">
       <Link to={`/user/${userNick}`} className="post-avatar">
-        <img src={imageUrl ? imageUrl : avatarUrl} alt="avatar" />
+        <img src={authorImg ? authorImg : avatarUrl} alt="avatar" />
       </Link>
       <div className="ml-3 d-lfex flex-column">
         <Link to={`/user/${userNick}`} className="h3 text-dark">
@@ -33,4 +48,4 @@ const PostHeader: React.FC<Props> = ({ date, authorId, userNick }) => {
   );
 };
 
-export default PostHeader;
+export default React.memo(PostHeader);

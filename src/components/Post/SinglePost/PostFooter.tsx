@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { toogleLike } from "../../../store/postSlice";
+import { toogleLike } from "../../../store/postSlice/postSlice";
 import { RootState } from "../../../store/reducer";
 
 interface Props {

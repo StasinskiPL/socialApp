@@ -1,13 +1,24 @@
-import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { fetchMorePost } from "../../store/postSlice";
+import {
+  fetchMoreFollowersPost,
+  fetchMorePost,
+} from "../../store/postSlice/postAsyncActions";
+import { PostsType } from "./Dashboard";
 
-const FetchMoreBtn = () => {
+interface Props {
+  postType: PostsType;
+}
+
+const FetchMoreBtn: React.FC<Props> = ({ postType }) => {
   const dispatch = useDispatch();
 
   const fetchMorePostsHandler = () => {
-    dispatch(fetchMorePost());
+    if (postType === PostsType.ALL) {
+      dispatch(fetchMorePost());
+    } else if (postType === PostsType.FOLLOWED) {
+      dispatch(fetchMoreFollowersPost());
+    }
   };
 
   return (

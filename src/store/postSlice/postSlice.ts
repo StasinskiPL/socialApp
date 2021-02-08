@@ -1,73 +1,32 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { db } from "../firebase";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { db } from "../../firebase";
+import {
+  fetchFollowersPosts,
+    fetchMoreFollowersPost,
+  fetchMorePost,
+  fetchPosts,
+  fetchUserPosts,
+} from "./postAsyncActions";
 
 interface InitialStateTypes {
   posts: Post[];
+  followersPosts: Post[];
   userPosts: Post[];
   loadingUserPosts: boolean;
   lastPostId: string | null;
-  loadingPosts : boolean,
+  lastFollowersPostId: string | null;
+  loadingPosts: boolean;
 }
 
 const initialState: InitialStateTypes = {
   posts: [],
   userPosts: [],
+  followersPosts: [],
   loadingUserPosts: false,
   lastPostId: null,
+  lastFollowersPostId: null,
   loadingPosts: false,
 };
-
-export const fetchPosts = createAsyncThunk("post/fetchPosts", async () => {
-  const postsRef = await db
-    .collection("posts")
-    .orderBy("date", "desc")
-    .limit(3)
-    .get();
-  const posts = postsRef.docs.map(
-    (post) => ({ ...post.data(), id: post.id } as Post)
-  );
-  return [...posts];
-});
-
-export const fetchUserPosts = createAsyncThunk(
-  "post/fetchOwnPosts",
-  async ({ nick }: { nick: string }) => {
-    const postsRef = await db
-      .collection("posts")
-      .where("userNick", "==", nick)
-      .orderBy("date", "desc")
-      .get();
-    const posts = postsRef.docs.map(
-      (post) => ({ ...post.data(), id: post.id } as Post)
-    );
-    return [...posts];
-  }
-);
-
-export const fetchMorePost = createAsyncThunk(
-  "post/fetchMorePost",
-  async (_, { getState }) => {
-    const {
-      posts: { lastPostId },
-    } = getState() as { posts: { lastPostId: string | null } };
-
-    if (lastPostId) {
-      const lastPostRef = await db.collection("posts").doc(lastPostId).get();
-
-      const postsRef = await db
-        .collection("posts")
-        .orderBy("date", "desc")
-        .startAfter(lastPostRef)
-        .limit(3)
-        .get();
-      const posts = postsRef.docs.map(
-        (post) => ({ ...post.data(), id: post.id } as Post)
-      );
-      return [...posts];
-    }
-    return [];
-  }
-);
 
 export const postSlice = createSlice({
   name: "post",
@@ -135,7 +94,7 @@ export const postSlice = createSlice({
     builder.addCase(fetchPosts.pending, (state) => {
       state.loadingPosts = true;
     });
-    // 
+    //
     builder.addCase(fetchPosts.fulfilled, (state, { payload }) => {
       const newPosts = [...state.posts, ...payload];
       const uniquePosts = Array.from(new Set(newPosts.map((s) => s.id)))
@@ -148,25 +107,59 @@ export const postSlice = createSlice({
       state.loadingPosts = false;
     });
     // //
+    builder.addCase(fetchFollowersPosts.pending, (state) => {
+      state.loadingPosts = true;
+    });
+    //
+    builder.addCase(fetchFollowersPosts.fulfilled, (state, { payload }) => {
+      const newPosts = [...state.followersPosts, ...payload];
+      const uniquePosts = Array.from(new Set(newPosts.map((s) => s.id)))
+        .map((id) => {
+          return newPosts.find((post) => post.id === id);
+        })
+        .filter((p) => p !== undefined) as Post[];
+      state.followersPosts = uniquePosts;
+      if(uniquePosts.length >= 1){
+          state.lastFollowersPostId = uniquePosts[uniquePosts.length - 1].id;
+      }else{
+          state.lastFollowersPostId = null;
+      }
+      state.loadingPosts = false;
+    });
+    // //
     builder.addCase(fetchMorePost.pending, (state) => {
       state.loadingPosts = true;
     });
     builder.addCase(fetchMorePost.fulfilled, (state, { payload }) => {
       const newPosts = [...state.posts, ...payload];
       state.posts = newPosts;
-      if (payload.length > 1) {
+      if (payload.length >= 1) {
         state.lastPostId = payload[payload.length - 1].id;
       } else {
         state.lastPostId = null;
       }
       state.loadingPosts = false;
-
     });
     // //
-    builder.addCase(fetchUserPosts.pending,(state)=>{
+    builder.addCase(fetchMoreFollowersPost.pending, (state) => {
+        state.loadingPosts = true;
+      });
+      builder.addCase(fetchMoreFollowersPost.fulfilled, (state, { payload }) => {
+          console.log(payload)
+        const newPosts = [...state.followersPosts, ...payload];
+        state.followersPosts = newPosts;
+        if (payload.length >= 1) {
+          state.lastFollowersPostId = payload[payload.length - 1].id;
+        } else {
+          state.lastFollowersPostId = null;
+        }
+        state.loadingPosts = false;
+      });
+      // //
+    builder.addCase(fetchUserPosts.pending, (state) => {
       state.loadingUserPosts = true;
-    })
-    // 
+    });
+    //
     builder.addCase(fetchUserPosts.fulfilled, (state, { payload }) => {
       state.userPosts = payload;
       state.loadingUserPosts = false;

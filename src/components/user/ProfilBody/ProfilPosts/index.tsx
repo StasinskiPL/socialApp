@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchUserPosts } from "../../../../store/postSlice";
+import { fetchUserPosts } from "../../../../store/postSlice/postAsyncActions";
 import { RootState } from "../../../../store/reducer";
 import AddPost from "../../../Post/AddPost";
 import PostsContainer from "../../../Post/PostsContainer";

@@ -15,4 +15,4 @@ const SinglePost:React.FC<Post> = ({id,authorId,date,likes,text,userNick}) => {
     )
 }
 
-export default SinglePost
+export default React.memo(SinglePost)

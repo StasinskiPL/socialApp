@@ -1,5 +1,4 @@
 import { Button, Container, Row } from "react-bootstrap";
-
 import FollowLink from "./FollowLink";
 
 interface Props {

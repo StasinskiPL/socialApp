@@ -1,4 +1,4 @@
-import {Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { lazy, Suspense, useState } from "react";
 import PrivateRoute from "../routes/PrivateRoute";
 import Dashboard from "./dashboard/Dashboard";
@@ -24,13 +24,26 @@ function App() {
         .then((doc) => {
           const data = doc.data();
           if (data) {
-            const { nick } = data;
-            dispatch(setUser({ nick, userId: user.uid }));
+            const { nick, following } = data;
+            let followingUsers: string[] = [];
+            if (following) {
+              followingUsers = following.map(
+                (follower: { id: string }) => follower.id
+              );
+            }
+
+            dispatch(
+              setUser({
+                nick,
+                userId: user.uid,
+                userFollowing: followingUsers,
+              })
+            );
           }
           setLoading(false);
         });
     } else {
-      dispatch(setUser({ nick: null, userId: null }));
+      dispatch(setUser({ nick: null, userId: null, userFollowing: [] }));
       setLoading(false);
     }
   });

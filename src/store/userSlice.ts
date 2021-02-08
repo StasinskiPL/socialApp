@@ -4,7 +4,6 @@ import { db } from "../firebase";
 
 interface InitialStateTypes{
     profilUserId: string | null
-
 }
 
 
