@@ -64,9 +64,6 @@
     &-follower-link{
         img{
             height: 100px;
-            @media screen and (min-width:400px) {
-                height: 100px;
-            }
         }
     }
 }

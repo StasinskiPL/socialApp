@@ -25,6 +25,9 @@ export const userSlice = createSlice({
     initialState,
     reducers:{},
     extraReducers:builder=>{
+        builder.addCase(getUserId.pending,(state)=>{
+            state.profilUserId = null;
+        })
         builder.addCase(getUserId.fulfilled,(state,{payload})=>{
             state.profilUserId = payload
         })

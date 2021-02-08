@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, {memo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import avatarUrl from "../../../assets/images/avatar.png";
 import { RootState } from "../../../store/reducer";
@@ -80,4 +80,4 @@ const Avatar: React.FC<Props> = ({ isOwnProfil, nick }) => {
   );
 };
 
-export default Avatar;
+export default memo(Avatar);

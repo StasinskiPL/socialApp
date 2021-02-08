@@ -4,20 +4,24 @@ import { db } from "../firebase";
 interface InitialStateTypes {
   posts: Post[];
   userPosts: Post[];
-  loadingUserPosts: boolean,
+  loadingUserPosts: boolean;
+  lastPostId: string | null;
+  loadingPosts : boolean,
 }
 
 const initialState: InitialStateTypes = {
   posts: [],
   userPosts: [],
   loadingUserPosts: false,
+  lastPostId: null,
+  loadingPosts: false,
 };
 
-export const fetchPosts = createAsyncThunk("/post/fetchPosts", async () => {
+export const fetchPosts = createAsyncThunk("post/fetchPosts", async () => {
   const postsRef = await db
     .collection("posts")
     .orderBy("date", "desc")
-    .limit(20)
+    .limit(3)
     .get();
   const posts = postsRef.docs.map(
     (post) => ({ ...post.data(), id: post.id } as Post)
@@ -26,7 +30,7 @@ export const fetchPosts = createAsyncThunk("/post/fetchPosts", async () => {
 });
 
 export const fetchUserPosts = createAsyncThunk(
-  "/post/fetchOwnPosts",
+  "post/fetchOwnPosts",
   async ({ nick }: { nick: string }) => {
     const postsRef = await db
       .collection("posts")
@@ -40,7 +44,30 @@ export const fetchUserPosts = createAsyncThunk(
   }
 );
 
+export const fetchMorePost = createAsyncThunk(
+  "post/fetchMorePost",
+  async (_, { getState }) => {
+    const {
+      posts: { lastPostId },
+    } = getState() as { posts: { lastPostId: string | null } };
 
+    if (lastPostId) {
+      const lastPostRef = await db.collection("posts").doc(lastPostId).get();
+
+      const postsRef = await db
+        .collection("posts")
+        .orderBy("date", "desc")
+        .startAfter(lastPostRef)
+        .limit(3)
+        .get();
+      const posts = postsRef.docs.map(
+        (post) => ({ ...post.data(), id: post.id } as Post)
+      );
+      return [...posts];
+    }
+    return [];
+  }
+);
 
 export const postSlice = createSlice({
   name: "post",
@@ -67,7 +94,7 @@ export const postSlice = createSlice({
         );
         if (alreadyLiked !== -1) {
           post.likes.splice(alreadyLiked, 1);
-          if(postFromUserPage){
+          if (postFromUserPage) {
             postFromUserPage.likes.splice(alreadyLiked, 1);
           }
           db.collection("posts")
@@ -77,14 +104,14 @@ export const postSlice = createSlice({
             });
         } else {
           post.likes.push(payload.userId);
-          if(postFromUserPage){
+          if (postFromUserPage) {
             postFromUserPage.likes.push(payload.userId);
           }
           db.collection("posts").doc(payload.postId).update({
             likes: post.likes,
           });
         }
-      }else if(postFromUserPage){
+      } else if (postFromUserPage) {
         const alreadyLiked = postFromUserPage.likes.findIndex(
           (id) => id === payload.userId
         );
@@ -105,6 +132,10 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchPosts.pending, (state) => {
+      state.loadingPosts = true;
+    });
+    // 
     builder.addCase(fetchPosts.fulfilled, (state, { payload }) => {
       const newPosts = [...state.posts, ...payload];
       const uniquePosts = Array.from(new Set(newPosts.map((s) => s.id)))
@@ -113,10 +144,29 @@ export const postSlice = createSlice({
         })
         .filter((p) => p !== undefined) as Post[];
       state.posts = uniquePosts;
+      state.lastPostId = uniquePosts[uniquePosts.length - 1].id;
+      state.loadingPosts = false;
     });
-    builder.addCase(fetchPosts.pending, (state)=>{
-      state.loadingUserPosts= true;
+    // //
+    builder.addCase(fetchMorePost.pending, (state) => {
+      state.loadingPosts = true;
+    });
+    builder.addCase(fetchMorePost.fulfilled, (state, { payload }) => {
+      const newPosts = [...state.posts, ...payload];
+      state.posts = newPosts;
+      if (payload.length > 1) {
+        state.lastPostId = payload[payload.length - 1].id;
+      } else {
+        state.lastPostId = null;
+      }
+      state.loadingPosts = false;
+
+    });
+    // //
+    builder.addCase(fetchUserPosts.pending,(state)=>{
+      state.loadingUserPosts = true;
     })
+    // 
     builder.addCase(fetchUserPosts.fulfilled, (state, { payload }) => {
       state.userPosts = payload;
       state.loadingUserPosts = false;

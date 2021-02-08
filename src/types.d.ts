@@ -6,3 +6,8 @@ interface Post{
     id:string,
     userNick:string,
 }
+
+interface Follower {
+    avatarUrl: string;
+    nick: string;
+  }

@@ -21,6 +21,7 @@ const ProfilPosts: React.FC = () => {
     dispatch(fetchUserPosts({ nick: nick }));
   }, [nick, dispatch]);
 
+
   useEffect(() => {
     setIsOwnProfil(nick === userNick);
   }, [nick, userNick]);

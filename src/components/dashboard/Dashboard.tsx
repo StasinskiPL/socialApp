@@ -6,6 +6,9 @@ import { RootState } from '../../store/reducer'
 import Navbar from '../navbar/Navbar'
 import AddPost from '../Post/AddPost'
 import PostsContainer from '../Post/PostsContainer'
+import InfoColumn from './InfoColumn/InfoColumn'
+import "./dashboard.scss"
+import FetchMoreBtn from './FetchMoreBtn'
 
 const Dashboard = () => {
 
@@ -20,11 +23,14 @@ const Dashboard = () => {
         <Navbar/>
         <Container className="mt-5">
             <Row>
-                <Col className="d-none d-lg-block" lg="4">
-                </Col>
                 <Col lg="8" className="p-md-0">
                     <AddPost/>
                     <PostsContainer posts={posts} />
+                    <FetchMoreBtn/>
+
+                </Col>
+                <Col className="d-none d-lg-block mt-4 pt-3 pr-0 pl-3" lg="4">
+                    <InfoColumn/>
                 </Col>
             </Row>
         </Container>
