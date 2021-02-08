@@ -5,12 +5,11 @@ import ProfilBody from "./ProfilBody";
 import ProfilHeader from "./ProfilHeader";
 
 const Profil = () => {
-
   return (
     <>
       <Navbar />
-          <ProfilHeader />
-          <ProfilBody />
+      <ProfilHeader />
+      <ProfilBody />
     </>
   );
 };

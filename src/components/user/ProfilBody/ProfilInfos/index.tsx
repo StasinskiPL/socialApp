@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { db } from "../../../../firebase";
-import Followers from "./Followers";
-import Following from "./Following";
+import FollowList from "./FollowList";
 import UserInfo from "./UserInfo";
 import moment from "moment";
 
@@ -40,8 +39,8 @@ const Infos = () => {
   return (
     <Col className="p-3" lg="5">
       <UserInfo nick={nick} createdAt={createdAt} />
-      <Following following={following} />
-      <Followers followers={followers} />
+      <FollowList title="Obserwuje" slug="obserwuje" list={following} />
+      <FollowList title="Obserwują" slug="obserwujacy" list={followers} />
     </Col>
   );
 };

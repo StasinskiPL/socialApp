@@ -9,6 +9,7 @@ import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
 import "../style/main.scss";
 import Profil from "./user/Profil";
+import UserList from "./UsersList/UserList";
 const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 
@@ -61,9 +62,10 @@ function App() {
         <Suspense fallback={<Loading />}>
           <Route path="/rejestracja" render={() => <Registration />} />
           <Route path="/logowanie" render={() => <Login />} />
-          <PrivateRoute path="/user/:nick" component={Profil} />
+          <PrivateRoute path="/user/:nick/:type" exact component={UserList} />
+          <PrivateRoute path="/user/:nick" exact component={Profil} />
+          <PrivateRoute path="/search/:value" component={UserList} />
           <PrivateRoute path="/" exact component={Dashboard} />
-          {/* <PrivateRoute path="/post/:id"  component={Dashboard}  /> */}
         </Suspense>
       </Switch>
     </main>

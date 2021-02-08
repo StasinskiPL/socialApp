@@ -14,21 +14,19 @@ export default function ProfilHeader() {
   const { userNick } = useSelector((state: RootState) => state.auth);
   const { loading } = useSelector((state: RootState) => state.user);
   const { nick }: { nick: string } = useParams();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsOwnProfil(nick === userNick);
-    dispatch(setLoading())
-  }, [nick, userNick,dispatch]);
+    dispatch(setLoading());
+  }, [nick, userNick, dispatch]);
 
   return (
     <header>
       <Container>
         <ProfilBg />
         <Avatar isOwnProfil={isOwnProfil} nick={nick} />
-        {(!isOwnProfil && !loading) && 
-        <FollowBtn/>
-        }
+        {!isOwnProfil && !loading && <FollowBtn />}
       </Container>
     </header>
   );
