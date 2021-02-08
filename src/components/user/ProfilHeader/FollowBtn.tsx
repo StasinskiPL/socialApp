@@ -12,39 +12,31 @@ interface UserToFollow {
   nick: string;
 }
 
-interface Props {
-  nick: string;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const FollowBtn: React.FC<Props> = ({ nick, setLoading }) => {
+const FollowBtn: React.FC = () => {
   const { userId, userNick } = useSelector((state: RootState) => state.auth);
+  const { profilUserId } = useSelector((state: RootState) => state.user);
   const [userToFollow, setUserToFollow] = useState<UserToFollow | null>(null);
   const { imageUrl } = useUserAvatar(userId as string);
 
-  // getProfilUserId From Nick
   useEffect(() => {
-    db.collection("users")
-      .where("nick", "==", nick)
-      .get()
-      .then((doc) => {
-        if (doc && doc.docs && doc.docs[0]) {
-          const id = doc.docs[0].id;
-          const { avatarUrl, nick } = doc.docs[0].data();
-          const user: UserToFollow = {
-            id: id,
-            nick,
-            avatarUrl,
-          };
-          if (id) {
-            setUserToFollow(user);
+    if (profilUserId) {
+      db.collection("users")
+        .doc(profilUserId)
+        .get()
+        .then((doc) => {
+          if (doc && doc.data()) {
+            const id = profilUserId;
+            const { avatarUrl, nick } = doc.data() as any;
+            const user: UserToFollow = {
+              id: id,
+              nick,
+              avatarUrl,
+            };
+              setUserToFollow(user);
           }
-        }
-      });
-    //  Prevent from
-    //  Can't perform a React state update on an unmounted component
-    return () => setLoading(true);
-  }, [nick, setLoading]);
+        });
+    }
+  }, [profilUserId]);
 
   const followHandler = () => {
     if (userId && userToFollow) {

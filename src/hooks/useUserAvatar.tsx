@@ -41,10 +41,10 @@ const useUserAvatar = (userId: string): Return => {
             const { avatarUrl } = data;
             setImageUrl(avatarUrl);
           }
-          setLoading(false);
         })
         .catch((err) => {
-          setLoading(false);
+        }).finally(()=>{
+          setLoading(false)
         });
     }
   }, [userId]);

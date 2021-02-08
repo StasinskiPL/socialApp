@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import avatarUrl from "../../../assets/images/avatar.png";
 import { RootState } from "../../../store/reducer";
@@ -14,8 +14,10 @@ interface Props {
 
 const Avatar: React.FC<Props> = ({ isOwnProfil, nick }) => {
   const inputRef = useRef<HTMLInputElement>(null!);
-  const { profilUserId } = useSelector((state: RootState) => state.user);
-  const { imageUrl, loading, saveImageToDB } = useUserAvatar(
+  const { profilUserId, loading } = useSelector(
+    (state: RootState) => state.user
+  );
+  const { imageUrl, loading: loadingAvatar, saveImageToDB } = useUserAvatar(
     profilUserId || ""
   );
 
@@ -42,7 +44,7 @@ const Avatar: React.FC<Props> = ({ isOwnProfil, nick }) => {
     }
   };
 
-  if (loading) {
+  if (loadingAvatar || loading) {
     return (
       <article className="profil__avatar">
         <div className="profil__avatar-loading">
