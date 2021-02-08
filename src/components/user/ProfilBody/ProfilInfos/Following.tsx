@@ -9,8 +9,8 @@ interface Follower {
   nick: string;
 }
 
-const Followers = () => {
-  const [followers, setFollowers] = useState<Follower[]>([]);
+const Following = () => {
+  const [following, setFollowing] = useState<Follower[]>([]);
   const [profilUserId, setProfilUserId] = useState<string | null>(null);
   const { nick }: { nick: string } = useParams();
 
@@ -22,8 +22,8 @@ const Followers = () => {
         .then((doc) => {
           if (doc) {
             const data = doc.data();
-            if (data && data.followers) {
-              setFollowers(data.followers.splice(0, 9));
+            if (data && data.following) {
+                setFollowing(data.following.splice(0, 9));
             //   I need set user id to null to prevent fetching wrong 
             //  followers while switching between profiles
               setProfilUserId(null)
@@ -35,7 +35,7 @@ const Followers = () => {
 
   // getProfilUserId From Nick
   useEffect(() => {
-    setFollowers([]);
+    setFollowing([]);
     db.collection("users")
       .where("nick", "==", nick)
       .get()
@@ -52,10 +52,10 @@ const Followers = () => {
 
   return (
     <div className="profil-infos p-2  mt-3 rounded bg-white">
-      <h4 className="p-2 pb-0 mb-1">Obserwują</h4>
+      <h4 className="p-2 pb-0 mb-1">Obserwuje</h4>
       <Container fluid>
         <Row>
-          {followers.map((follower, index) => (
+          {following.map((follower, index) => (
             <FollowLink
               avatarUrl={follower.avatarUrl}
               nick={follower.nick}
@@ -65,7 +65,7 @@ const Followers = () => {
         </Row>
       </Container>
 
-      {followers.length > 9 && (
+      {following.length > 9 && (
         <Button variant="secondary" className="w-100">
           Zobacz więcej
         </Button>
@@ -74,4 +74,4 @@ const Followers = () => {
   );
 };
 
-export default Followers;
+export default Following;

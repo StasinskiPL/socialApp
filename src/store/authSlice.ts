@@ -69,9 +69,10 @@ const registerUser = createAsyncThunk(
         }
     }
     if (data && data.user) {
+      const createdAt = new Date().getTime()
         await db
         .collection("users").doc(data.user.uid)
-        .set({ nick: nick });
+        .set({ nick: nick,createdAt:createdAt});
       return {nick:nick,id:data.user.uid};
     }
   }

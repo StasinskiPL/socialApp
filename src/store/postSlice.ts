@@ -4,7 +4,14 @@ import { db } from "../firebase";
 interface InitialStateTypes {
   posts: Post[];
   userPosts: Post[];
+  loadingUserPosts: boolean,
 }
+
+const initialState: InitialStateTypes = {
+  posts: [],
+  userPosts: [],
+  loadingUserPosts: false,
+};
 
 export const fetchPosts = createAsyncThunk("/post/fetchPosts", async () => {
   const postsRef = await db
@@ -23,18 +30,17 @@ export const fetchUserPosts = createAsyncThunk(
   async ({ nick }: { nick: string }) => {
     const postsRef = await db
       .collection("posts")
-      .where("nick", "==", nick)
+      .where("userNick", "==", nick)
       .orderBy("date", "desc")
       .get();
-    const posts = postsRef.docs.map((post) => post.data() as Post);
+    const posts = postsRef.docs.map(
+      (post) => ({ ...post.data(), id: post.id } as Post)
+    );
     return [...posts];
   }
 );
 
-const initialState: InitialStateTypes = {
-  posts: [],
-  userPosts: [],
-};
+
 
 export const postSlice = createSlice({
   name: "post",
@@ -44,24 +50,59 @@ export const postSlice = createSlice({
       db.collection("posts").add({ ...payload });
       state.posts.unshift({ ...payload });
     },
-    toogleLike:(state,{payload}:PayloadAction<{postId:string,userId:string}>)=>{
-      const post:Post = state.posts.find(post=> post.id === payload.postId) as Post;
-      
-      if(post){
-        const alreadyLiked = post.likes.findIndex(id => id === payload.userId);
-        if(alreadyLiked !== -1){
-          post.likes.splice(alreadyLiked,1)
+    toogleLike: (
+      state,
+      { payload }: PayloadAction<{ postId: string; userId: string }>
+    ) => {
+      const post: Post = state.posts.find(
+        (post) => post.id === payload.postId
+      ) as Post;
+      const postFromUserPage: Post = state.userPosts.find(
+        (post) => post.id === payload.postId
+      ) as Post;
+
+      if (post) {
+        const alreadyLiked = post.likes.findIndex(
+          (id) => id === payload.userId
+        );
+        if (alreadyLiked !== -1) {
+          post.likes.splice(alreadyLiked, 1);
+          if(postFromUserPage){
+            postFromUserPage.likes.splice(alreadyLiked, 1);
+          }
+          db.collection("posts")
+            .doc(payload.postId)
+            .update({
+              likes: post.likes.splice(alreadyLiked, 1),
+            });
+        } else {
+          post.likes.push(payload.userId);
+          if(postFromUserPage){
+            postFromUserPage.likes.push(payload.userId);
+          }
           db.collection("posts").doc(payload.postId).update({
-            likes:post.likes.splice(alreadyLiked,1)
-          })
-        }else{
-          post.likes.push(payload.userId)
+            likes: post.likes,
+          });
+        }
+      }else if(postFromUserPage){
+        const alreadyLiked = postFromUserPage.likes.findIndex(
+          (id) => id === payload.userId
+        );
+        if (alreadyLiked !== -1) {
+          postFromUserPage.likes.splice(alreadyLiked, 1);
+          db.collection("posts")
+            .doc(payload.postId)
+            .update({
+              likes: postFromUserPage.likes.splice(alreadyLiked, 1),
+            });
+        } else {
+          postFromUserPage.likes.push(payload.userId);
           db.collection("posts").doc(payload.postId).update({
-            likes:post.likes
-          })
+            likes: postFromUserPage.likes,
+          });
         }
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPosts.fulfilled, (state, { payload }) => {
@@ -73,10 +114,14 @@ export const postSlice = createSlice({
         .filter((p) => p !== undefined) as Post[];
       state.posts = uniquePosts;
     });
+    builder.addCase(fetchPosts.pending, (state)=>{
+      state.loadingUserPosts= true;
+    })
     builder.addCase(fetchUserPosts.fulfilled, (state, { payload }) => {
       state.userPosts = payload;
+      state.loadingUserPosts = false;
     });
   },
 });
 
-export const { addPost,toogleLike } = postSlice.actions;
+export const { addPost, toogleLike } = postSlice.actions;

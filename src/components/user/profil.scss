@@ -20,10 +20,13 @@
             position: absolute;
             background-color: white;
             top: -120px;
-            left: calc(50% - 80px);
             border-radius: 50%;
+            left: calc(50% - 140px);
             border: 3px solid white;
             overflow: hidden;
+            @media screen and (min-width:400px) {
+                left: calc(50% - 80px);
+            }
             img {
                 width: 160px;
                 height: 160px;
@@ -57,5 +60,13 @@
     &-infos{
         min-height: 160px;
         box-shadow: 0px 0px 5px rgba(#333,0.2);
+    }
+    &-follower-link{
+        img{
+            height: 100px;
+            @media screen and (min-width:400px) {
+                height: 100px;
+            }
+        }
     }
 }

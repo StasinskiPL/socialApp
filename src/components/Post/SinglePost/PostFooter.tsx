@@ -19,11 +19,10 @@ const PostFooter: React.FC<Props> = ({ likes, postId }) => {
       dispatch(toogleLike({ postId: postId, userId: userId }));
     }
   };
-
   return (
     <Card.Footer className="d-flex bg-white">
-      <Button onClick={addLike} variant="outline-danger" className="p-1">
-        <FaHeart className="mr-1 align-top mt-1" />
+      <Button onClick={addLike} variant='white'  className="p-1">
+        <FaHeart className="mr-1 text-danger align-top mt-1" />
         <span>{likes}</span>
       </Button>
     </Card.Footer>

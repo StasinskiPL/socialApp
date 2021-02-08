@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import avatarUrl from "../../../assets/images/avatar.png";
 import { RootState } from "../../../store/reducer";
 import { MdPhotoCamera } from "react-icons/md";
@@ -8,26 +7,23 @@ import Loading from "../../ui/Loading";
 import useUserAvatar from "../../../hooks/useUserAvatar";
 import { getUserId } from "../../../store/userSlice";
 
-const Avatar: React.FC = () => {
-  const [isOwnProfil, setIsOwnProfil] = useState(false);
+interface Props {
+  isOwnProfil: boolean;
+  nick: string;
+}
+
+const Avatar: React.FC<Props> = ({ isOwnProfil, nick }) => {
   const inputRef = useRef<HTMLInputElement>(null!);
-  const { userNick} = useSelector((state: RootState) => state.auth);
-  const {profilUserId} = useSelector((state:RootState)=>state.user)
-  const { nick }: { nick: string } = useParams();
-  const { imageUrl, loading, saveImageToDB } = useUserAvatar(profilUserId || "");
+  const { profilUserId } = useSelector((state: RootState) => state.user);
+  const { imageUrl, loading, saveImageToDB } = useUserAvatar(
+    profilUserId || ""
+  );
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(getUserId({nick}))
-  },[nick,dispatch])
-
-
-
- 
   useEffect(() => {
-    setIsOwnProfil(nick === userNick);
-  }, [nick, userNick]);
+    dispatch(getUserId({ nick }));
+  }, [nick, dispatch]);
 
   const clickFileInput = () => {
     if (isOwnProfil) {
