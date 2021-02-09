@@ -1,7 +1,6 @@
-.post{
-
-    &-avatar{
-        img{
+.post {
+    &-avatar {
+        img {
             border-radius: 50%;
             overflow: hidden;
             object-fit: cover;
@@ -9,7 +8,18 @@
             height: 60px;
         }
     }
-    &-text{
+    &-text {
         font-size: 1.25rem;
+    }
+    &-comment {
+        position: relative;
+        &-count {
+            background-color: white;
+            position: absolute;
+            display: block;
+            border-radius: 50%;
+            right: 5px;
+            top: 20px;
+        }
     }
 }

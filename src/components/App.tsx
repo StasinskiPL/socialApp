@@ -9,7 +9,7 @@ import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
 import "../style/main.scss";
 import Profil from "./user/Profil";
-import UserList from "./UsersList/UserList";
+import UserList from "./usersList/UserList";
 const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 

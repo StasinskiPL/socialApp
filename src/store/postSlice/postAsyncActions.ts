@@ -1,5 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "../../firebase";
+import firebase from "firebase/app"
+
+
+export const addComment = createAsyncThunk("post/addComment", async ({comment,postId}:{comment:Comment,postId:string}) => {
+  await db
+    .collection("posts")
+   .doc(postId).update({
+     comments: firebase.firestore.FieldValue.arrayUnion(comment)
+   })
+  return {postId:postId,comment:comment}
+});
 
 export const fetchPosts = createAsyncThunk("post/fetchPosts", async () => {
   const postsRef = await db

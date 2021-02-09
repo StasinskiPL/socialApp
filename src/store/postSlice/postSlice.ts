@@ -2,8 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { db } from "../../firebase";
 import firebase from "firebase/app";
 import {
+  addComment,
   fetchFollowersPosts,
-    fetchMoreFollowersPost,
+  fetchMoreFollowersPost,
   fetchMorePost,
   fetchPosts,
   fetchUserPosts,
@@ -67,9 +68,11 @@ export const postSlice = createSlice({
           if (postFromUserPage) {
             postFromUserPage.likes.push(payload.userId);
           }
-          db.collection("posts").doc(payload.postId).update({
-            likes: firebase.firestore.FieldValue.arrayUnion(payload.userId),
-          });
+          db.collection("posts")
+            .doc(payload.postId)
+            .update({
+              likes: firebase.firestore.FieldValue.arrayUnion(payload.userId),
+            });
         }
       } else if (postFromUserPage) {
         const alreadyLiked = postFromUserPage.likes.findIndex(
@@ -92,6 +95,26 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(addComment.fulfilled, (state, { payload }) => {
+      const postRef = state.posts.find((post) => post.id === payload.postId);
+      const userPostRef = state.userPosts.find(
+        (post) => post.id === payload.postId
+      );
+      const followersPosts = state.followersPosts.find(
+        (post) => post.id === payload.postId
+      );
+
+      if (postRef) {
+        postRef.comments.push(payload.comment);
+      }
+      if (userPostRef) {
+        userPostRef.comments.push(payload.comment);
+      }
+      if (followersPosts) {
+        followersPosts.comments.push(payload.comment);
+      }
+    });
+    // //
     builder.addCase(fetchPosts.pending, (state) => {
       state.loadingPosts = true;
     });
@@ -120,10 +143,10 @@ export const postSlice = createSlice({
         })
         .filter((p) => p !== undefined) as Post[];
       state.followersPosts = uniquePosts;
-      if(uniquePosts.length >= 1){
-          state.lastFollowersPostId = uniquePosts[uniquePosts.length - 1].id;
-      }else{
-          state.lastFollowersPostId = null;
+      if (uniquePosts.length >= 1) {
+        state.lastFollowersPostId = uniquePosts[uniquePosts.length - 1].id;
+      } else {
+        state.lastFollowersPostId = null;
       }
       state.loadingPosts = false;
     });
@@ -143,20 +166,20 @@ export const postSlice = createSlice({
     });
     // //
     builder.addCase(fetchMoreFollowersPost.pending, (state) => {
-        state.loadingPosts = true;
-      });
-      builder.addCase(fetchMoreFollowersPost.fulfilled, (state, { payload }) => {
-          console.log(payload)
-        const newPosts = [...state.followersPosts, ...payload];
-        state.followersPosts = newPosts;
-        if (payload.length >= 1) {
-          state.lastFollowersPostId = payload[payload.length - 1].id;
-        } else {
-          state.lastFollowersPostId = null;
-        }
-        state.loadingPosts = false;
-      });
-      // //
+      state.loadingPosts = true;
+    });
+    builder.addCase(fetchMoreFollowersPost.fulfilled, (state, { payload }) => {
+      console.log(payload);
+      const newPosts = [...state.followersPosts, ...payload];
+      state.followersPosts = newPosts;
+      if (payload.length >= 1) {
+        state.lastFollowersPostId = payload[payload.length - 1].id;
+      } else {
+        state.lastFollowersPostId = null;
+      }
+      state.loadingPosts = false;
+    });
+    // //
     builder.addCase(fetchUserPosts.pending, (state) => {
       state.loadingUserPosts = true;
     });

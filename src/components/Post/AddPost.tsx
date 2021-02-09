@@ -15,12 +15,13 @@ const AddPost:React.FC = () => {
 
   const publishPostHandler = () => {
     if (text.trim().length > 4) {
-      const post = {
+      const post : Post = {
         text: text,
         authorId: userId as string,
         date: new Date().getTime(),
         likes: [],
         id: uuid(),
+        comments: [] as Comment[],
         userNick: userNick as string,
       };
       dispatch(AddPostAction(post));
