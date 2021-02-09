@@ -36,7 +36,7 @@ const PostHeader: React.FC<Props> = ({ date, authorId, userNick }) => {
   return (
     <Card.Header className="d-flex pb-0 bg-white border-bottom-0">
       <Link to={`/user/${userNick}`} className="post-avatar">
-        <img src={authorImg ? authorImg : avatarUrl} alt="avatar" />
+        <img loading="lazy" src={authorImg ? authorImg : avatarUrl} alt="avatar" />
       </Link>
       <div className="ml-3 d-lfex flex-column">
         <Link to={`/user/${userNick}`} className="h3 text-dark">

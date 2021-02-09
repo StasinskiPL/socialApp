@@ -20,7 +20,7 @@ export enum PostsType {
   FOLLOWED = "FOLLOWED",
 }
 
-const Dashboard = () => {
+const Dashboard:React.FC = () => {
   const { posts, followersPosts, loadingPosts } = useSelector(
     (state: RootState) => state.posts
   );

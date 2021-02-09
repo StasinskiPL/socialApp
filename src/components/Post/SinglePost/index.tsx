@@ -10,7 +10,7 @@ const SinglePost:React.FC<Post> = ({id,authorId,date,likes,text,userNick}) => {
         <Card className="mt-3">
         <PostHeader authorId={authorId} date={date} userNick={userNick} />
         <PostBody text={text}/>
-        <PostFooter postId={id} likes={likes.length}/>
+        <PostFooter postId={id} likes={likes}/>
       </Card>
     )
 }

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { db } from "../../firebase";
+import firebase from "firebase/app";
 import {
   fetchFollowersPosts,
     fetchMoreFollowersPost,
@@ -59,7 +60,7 @@ export const postSlice = createSlice({
           db.collection("posts")
             .doc(payload.postId)
             .update({
-              likes: post.likes.splice(alreadyLiked, 1),
+              likes: firebase.firestore.FieldValue.arrayRemove(payload.userId),
             });
         } else {
           post.likes.push(payload.userId);
@@ -67,7 +68,7 @@ export const postSlice = createSlice({
             postFromUserPage.likes.push(payload.userId);
           }
           db.collection("posts").doc(payload.postId).update({
-            likes: post.likes,
+            likes: firebase.firestore.FieldValue.arrayUnion(payload.userId),
           });
         }
       } else if (postFromUserPage) {

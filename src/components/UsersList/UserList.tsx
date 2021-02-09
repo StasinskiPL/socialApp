@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import Navbar from "../navbar/Navbar";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UserItem from "./UserItem";
 import { db } from "../../firebase";
+import "./userList.scss";
+import Loading from "../ui/Loading";
 
 const UserList: React.FC = () => {
   const [list, setList] = useState<Follower[]>([]);
+  const [backLink, setBackLink] = useState<string>("/");
+  const [loading, setLoading] = useState(true);
 
   const {
     nick,
@@ -18,21 +22,24 @@ const UserList: React.FC = () => {
     nick: string | undefined;
   } = useParams();
   useEffect(() => {
+    setList([])
+    setLoading(true);
     if (typeof value === "string") {
       db.collection("users")
-        .orderBy("nick")
-        .startAt(value)
-        .endAt(value + "~")
+        .where("nick", ">=", value)
+        .where("nick", "<=", value + "\uf8ff")
         .get()
         .then((data) => {
-          console.log(data);
-          if (data) {
-            data.docs.forEach((doc) => {
-              console.log(doc.data());
-            });
-            console.log(data.docs[0]);
+          if (data.docs.length > 0) {
+            const userList = data.docs.map((item) => ({
+              nick: item.data().nick,
+              avatarUrl: item.data().avatarUrl,
+            }));
+            setList(userList);
           }
+          setLoading(false);
         });
+      setBackLink("/");
     } else if (typeof type === "string") {
       db.collection("users")
         .where("nick", "==", nick)
@@ -60,19 +67,30 @@ const UserList: React.FC = () => {
               }
             }
           }
+          setLoading(false);
         });
+      setBackLink(`/user/${nick}`);
     }
   }, [type, value, nick]);
-
-  console.log(list);
 
   return (
     <>
       <Navbar />
-      <Container>
-        {/* {list.map((item, index) => (
-          <UserItem {...item} key={index} />
-        ))} */}
+      <Container className="mt-5">
+        <Button as={Link} variant="outline-dark" className="px-5" to={backLink}>
+          Wróć
+        </Button>
+        <Row className="mt-5 g-1">
+          {loading && <Loading />}
+          {list.map((item, index) => (
+            <UserItem {...item} key={index} />
+          ))}
+          {!loading && list.length === 0 && (
+            <Col>
+              <h4>Żaden Użytkownik nie spełnia tych kryteriów.</h4>
+            </Col>
+          )}
+        </Row>
       </Container>
     </>
   );

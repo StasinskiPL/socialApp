@@ -4,7 +4,7 @@ import "./profil.scss";
 import ProfilBody from "./ProfilBody";
 import ProfilHeader from "./ProfilHeader";
 
-const Profil = () => {
+const Profil:React.FC = () => {
   return (
     <>
       <Navbar />
