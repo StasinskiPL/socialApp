@@ -56,7 +56,7 @@ const Registration = () => {
       ) : (
         <>
           <Form.Label>
-            <h1 className="display-3">AlbiclaV2</h1>
+            <h1 className="display-3">Albicja</h1>
           </Form.Label>
 
           {error && (
@@ -120,7 +120,7 @@ const Registration = () => {
             Masz już konto? Zaloguj się!
           </Link>
           <p className="text-center mt-2">
-            @2022 AlbiclaV2 The Future of the web🚀
+            @2022 Albicja The Future of the web🚀
           </p>
         </>
       )}

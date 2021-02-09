@@ -40,7 +40,7 @@ const Login = () => {
       ) : (
         <>
           <Form.Label>
-            <h1 className="display-3">AlbiclaV2</h1>
+            <h1 className="display-3">Albicja</h1>
           </Form.Label>
 
           {error && (
@@ -83,7 +83,7 @@ const Login = () => {
             Nie masz jeszcze Konta? Zarejestruj się!
           </Link>
           <p className="text-center mt-2">
-            @2022 AlbiclaV2 The Future of the web🚀
+            @2022 Albiclajs The Future of the web🚀
           </p>
         </>
       )}

@@ -10,6 +10,7 @@ import { Container } from "react-bootstrap";
 import "../style/main.scss";
 import Profil from "./user/Profil";
 import UserList from "./usersList/UserList";
+import Footer from "./footer/Footer";
 const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 
@@ -57,6 +58,7 @@ function App() {
   }
 
   return (
+    <>
     <main className="bg-light">
       <Switch>
         <Suspense fallback={<Loading />}>
@@ -69,6 +71,8 @@ function App() {
         </Suspense>
       </Switch>
     </main>
+    <Footer/>
+    </>
   );
 }
 
