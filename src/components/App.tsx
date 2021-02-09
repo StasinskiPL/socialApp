@@ -9,7 +9,7 @@ import { Container } from "react-bootstrap";
 import Dashboard from "./dashboard/Dashboard";
 import Loading from "./ui/Loading";
 import Profil from "./user/Profil";
-import UserList from "./usersListFolder/UserList";
+import UserList from "./usersList/UserList";
 import Navbar from "./navbar/Navbar";
 import Footer from "./footer/Footer";
 import "../style/main.scss";
