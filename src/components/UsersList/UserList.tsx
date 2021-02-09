@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import Navbar from "../navbar/Navbar";
 import { Link, useParams } from "react-router-dom";
 import UserItem from "./UserItem";
 import { db } from "../../firebase";
@@ -22,7 +21,7 @@ const UserList: React.FC = () => {
     nick: string | undefined;
   } = useParams();
   useEffect(() => {
-    setList([])
+    setList([]);
     setLoading(true);
     if (typeof value === "string") {
       db.collection("users")
@@ -74,25 +73,22 @@ const UserList: React.FC = () => {
   }, [type, value, nick]);
 
   return (
-    <>
-      <Navbar />
-      <Container className="mt-5">
-        <Button as={Link} variant="outline-dark" className="px-5" to={backLink}>
-          Wróć
-        </Button>
-        <Row className="mt-5 g-1">
-          {loading && <Loading />}
-          {list.map((item, index) => (
-            <UserItem {...item} key={index} />
-          ))}
-          {!loading && list.length === 0 && (
-            <Col>
-              <h4>Żaden Użytkownik nie spełnia tych kryteriów.</h4>
-            </Col>
-          )}
-        </Row>
-      </Container>
-    </>
+    <Container className="mt-5">
+      <Button as={Link} variant="outline-dark" className="px-5" to={backLink}>
+        Wróć
+      </Button>
+      <Row className="mt-5 g-1">
+        {loading && <Loading />}
+        {list.map((item, index) => (
+          <UserItem {...item} key={index} />
+        ))}
+        {!loading && list.length === 0 && (
+          <Col>
+            <h4>Żaden Użytkownik nie spełnia tych kryteriów.</h4>
+          </Col>
+        )}
+      </Row>
+    </Container>
   );
 };
 

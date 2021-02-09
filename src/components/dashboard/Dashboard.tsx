@@ -6,7 +6,6 @@ import {
   fetchPosts,
 } from "../../store/postSlice/postAsyncActions";
 import { RootState } from "../../store/reducer";
-import Navbar from "../navbar/Navbar";
 import AddPost from "../Post/AddPost";
 import PostsContainer from "../Post/PostsContainer";
 import InfoColumn from "./InfoColumn/InfoColumn";
@@ -34,8 +33,6 @@ const Dashboard:React.FC = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <Navbar />
       <Container className="mt-5">
         <Row>
           <Col lg="8" className="p-md-0">
@@ -52,7 +49,6 @@ const Dashboard:React.FC = () => {
           </Col>
         </Row>
       </Container>
-    </>
   );
 };
 

@@ -18,7 +18,7 @@ const Nav: React.FC = () => {
 
   return (
     <>
-      <Navbar bg="dark" className="navbar mb-2">
+      <Navbar bg="dark" className="navbar fixed-top">
         <Container className="d-flex w-100 justify-content-beetween navbar-center">
           <NavbarLogo />
           {width > 480 && <NavbarSearch width={width} />}

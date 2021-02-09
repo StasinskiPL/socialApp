@@ -49,7 +49,7 @@ const Registration = () => {
   return (
     <Form
       onSubmit={RegistrationUserHandler}
-      className="d-flex p-2 flex-column justify-content-center align-items-center authForm"
+      className="d-flex p-2 flex-column mt-5 align-items-center authForm"
     >
       {loading ? (
         <Loading />
