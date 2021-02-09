@@ -1,18 +1,18 @@
-import { Route, Switch } from "react-router-dom";
-import { lazy, Suspense, useEffect, useState } from "react";
-import PrivateRoute from "../routes/PrivateRoute";
-import Dashboard from "./dashboard/Dashboard";
-import Loading from "./ui/Loading";
 import { auth, db } from "../firebase";
+import { Route, Switch } from "react-router-dom";
+import { RootState } from "../store/reducer";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PrivateRoute from "../routes/PrivateRoute";
 import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
-import "../style/main.scss";
+import Dashboard from "./dashboard/Dashboard";
+import Loading from "./ui/Loading";
 import Profil from "./user/Profil";
 import UserList from "./usersList/UserList";
 import Navbar from "./navbar/Navbar";
 import Footer from "./footer/Footer";
-import { RootState } from "../store/reducer";
+import "../style/main.scss";
 const Registration = lazy(() => import("./auth/Registration"));
 const Login = lazy(() => import("./auth/Login"));
 
