@@ -1,4 +1,4 @@
-### social app like ~~facebook~~ albicla 
+### social app like twitter
 
 #### Stack:
 - TypeScript
