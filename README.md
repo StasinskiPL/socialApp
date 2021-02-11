@@ -1,4 +1,4 @@
-### social app like twitter
+### SocialApp like twitter
 
 #### Stack:
 - TypeScript
