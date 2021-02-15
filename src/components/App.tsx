@@ -1,11 +1,13 @@
-import { auth, db } from "../firebase";
 import { Route, Switch } from "react-router-dom";
-import { RootState } from "../store/reducer";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import 'moment/locale/pl' 
 import PrivateRoute from "../routes/PrivateRoute";
 import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
+import { auth, db } from "../firebase";
+import { RootState } from "../store/reducer";
 import Dashboard from "./dashboard/Dashboard";
 import Loading from "./ui/Loading";
 import Profil from "./user/Profil";
@@ -20,6 +22,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const { logged } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+
+
+  moment.locale("es")
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
