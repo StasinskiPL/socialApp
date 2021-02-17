@@ -40,10 +40,15 @@ const FollowBtn: React.FC = () => {
 
   const followHandler = () => {
     if (userId && userToFollow) {
+      console.log(userToFollow)
+      console.log(userId)
       db.collection("users")
         .doc(userId)
         .update({
-          following: firebase.firestore.FieldValue.arrayUnion(userToFollow),
+          following: firebase.firestore.FieldValue.arrayUnion({
+            ...userToFollow,
+            avatarUrl: userToFollow.avatarUrl ? userToFollow.avatarUrl : ""
+          }),
         });
       db.collection("users")
         .doc(userToFollow.id)
@@ -51,7 +56,7 @@ const FollowBtn: React.FC = () => {
           followers: firebase.firestore.FieldValue.arrayUnion({
             id: userId,
             nick: userNick,
-            avatarUrl: imageUrl,
+            avatarUrl: imageUrl ? imageUrl : "",
           }),
         });
     }

@@ -9,8 +9,8 @@ interface Props {
 const PostsContainer: React.FC<Props> = ({ posts }) => {
   return (
     <section className="posts">
-      {posts.map((post, index) => {
-        return <SinglePost {...post} key={index} />;
+      {posts.map((post) => {
+        return <SinglePost {...post} key={post.id} />;
       })}
     </section>
   );
