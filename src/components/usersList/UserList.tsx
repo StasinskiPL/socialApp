@@ -45,7 +45,7 @@ const UserList: React.FC = () => {
         .get()
         .then((data) => {
           if (data && data.docs[0]) {
-            if (type.toLowerCase() === "obserwujacy") {
+            if (type.toLowerCase() === "followers") {
               const {
                 followers,
               }: { followers: Follower[] } = data.docs[0].data() as {
@@ -55,7 +55,7 @@ const UserList: React.FC = () => {
                 setList(followers);
               }
             }
-            if (type.toLowerCase() === "obserwuje") {
+            if (type.toLowerCase() === "following") {
               const {
                 following,
               }: { following: Follower[] } = data.docs[0].data() as {
@@ -75,7 +75,7 @@ const UserList: React.FC = () => {
   return (
     <Container className="mt-5">
       <Button as={Link} variant="outline-dark" className="px-5" to={backLink}>
-        Wróć
+        Back
       </Button>
       <Row className="mt-5 g-1">
         {loading && <Loading />}
@@ -84,7 +84,7 @@ const UserList: React.FC = () => {
         ))}
         {!loading && list.length === 0 && (
           <Col>
-            <h4>Żaden Użytkownik nie spełnia tych kryteriów.</h4>
+            <h4>No one user match.</h4>
           </Col>
         )}
       </Row>

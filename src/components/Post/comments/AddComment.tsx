@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
-import { FaShare } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import useUserAvatar from "../../../hooks/useUserAvatar";
 import { RootState } from "../../../store/reducer";
@@ -30,7 +29,7 @@ const AddComment: React.FC<Props> = ({ postId }) => {
       );
       setText("");
     } else {
-      alert("Komendarz musi mieć conajmniej trzy znaków");
+      alert("Comment have to contains at least 3 characters");
     }
   };
 
@@ -39,7 +38,7 @@ const AddComment: React.FC<Props> = ({ postId }) => {
       <Form className="bg-white d-flex p-1  justify-content-between">
         <InputGroup className="w-100">
           <Form.Control
-            placeholder="Co się dzieje?"
+            placeholder="Write a post..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             className="w-100"
@@ -50,7 +49,7 @@ const AddComment: React.FC<Props> = ({ postId }) => {
         <InputGroup.Append>
         
         <Button onClick={publishPostHandler} size="sm" variant="dark">
-          Opublikuj
+          publish
         </Button>
         </InputGroup.Append>
       </Form>

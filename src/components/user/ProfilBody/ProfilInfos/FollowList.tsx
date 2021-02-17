@@ -28,7 +28,7 @@ const FollowList: React.FC<Props> = ({ list,title,slug }) => {
 
       {list.length > 9 && (
         <Button as={Link} to={`/user/${nick}/${slug}`} variant="secondary" className="w-100">
-        Zobacz więcej
+        Show More
       </Button>
       )}
     </div>

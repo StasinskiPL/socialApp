@@ -32,13 +32,13 @@ const Registration = () => {
     e.preventDefault();
     setError(null);
     if (!email.trim() || password.trim().length < 6) {
-      setError("Wprowadź email i hasło");
+      setError("Enter login and password");
     } else if (password !== confirm) {
-      setError("Hasła muszą być takie same");
+      setError("passwords have to match");
     } else if (nick.trim().length < 5) {
-      setError("Nick musi zawierać minimum pięć znaków");
+      setError("Nick have to be longer then 5 characters");
     } else if (nick.trim().length > 20) {
-      setError("Nick może zawierać maksymalnie 20 znaków");
+      setError("Nick can't have more then 20 characters");
     }else{
         dispatch(registerUser({email,password,nick}))
     }
@@ -66,7 +66,7 @@ const Registration = () => {
           )}
 
           <Form.Group className="w-100">
-            <Form.Label>Nazwa(Nick)</Form.Label>
+            <Form.Label>Nick</Form.Label>
             <Form.Control
               placeholder="nick"
               type="text"
@@ -85,10 +85,10 @@ const Registration = () => {
           </Form.Group>
           <Form.Group className="w-100">
             <Form.Label>
-              Hasło <small>(min 6 znaków)</small>
+              Password <small>(min 6 characters)</small>
             </Form.Label>
             <Form.Control
-              placeholder="haslo"
+              placeholder="password"
               type="password"
               value={password}
               autoComplete="newPassword"
@@ -96,9 +96,8 @@ const Registration = () => {
             />
           </Form.Group>
           <Form.Group className="w-100">
-            <Form.Label>Powtórz hasło</Form.Label>
+            <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              placeholder="haslo"
               type="password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
@@ -110,17 +109,17 @@ const Registration = () => {
             className="w-100 mt-3"
             type="submit"
           >
-            Zarejestruj
+            Sign up
           </Button>
           <Link
-            to="/logowanie"
+            to="/login"
             className="btn-dark btn w-100 mt-3"
             type="submit"
           >
-            Masz już konto? Zaloguj się!
+            Have an account ? Login!
           </Link>
           <p className="text-center mt-2">
-            @2022 Albicja The Future of the web🚀
+           &copy; Albicja🚀
           </p>
         </>
       )}

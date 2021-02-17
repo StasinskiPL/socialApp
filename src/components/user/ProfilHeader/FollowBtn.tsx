@@ -65,7 +65,7 @@ const FollowBtn: React.FC = () => {
         onClick={followHandler}
         variant="outline-success"
       >
-        Obserwuj
+        Follow
       </Button>
     </div>
   );

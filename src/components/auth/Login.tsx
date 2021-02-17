@@ -45,7 +45,7 @@ const Login = () => {
 
           {error && (
             <Alert variant="danger" className="w-100 mt-3 text-center">
-              Zły Email lub Hasło
+              Wrong Email or password
             </Alert>
           )}
 
@@ -59,9 +59,9 @@ const Login = () => {
             />
           </Form.Group>
           <Form.Group className="w-100">
-            <Form.Label>Haslo</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control
-              placeholder="haslo"
+              placeholder="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -73,17 +73,17 @@ const Login = () => {
             className="w-100 mt-3"
             type="submit"
           >
-            Zaloguj
+            Login
           </Button>
           <Link
-            to="/rejestracja"
+            to="/registration"
             className="btn-dark btn w-100 mt-3"
             type="submit"
           >
-            Nie masz jeszcze Konta? Zarejestruj się!
+            Don't have an account ? Sign up!
           </Link>
           <p className="text-center mt-2">
-            @2022 Albiclajs The Future of the web🚀
+            &copy; Albicja🚀
           </p>
         </>
       )}

@@ -37,8 +37,8 @@ const Avatar: React.FC<Props> = ({ isOwnProfil, nick }) => {
   const handlerUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      if (file.size > 2200000) {
-        return alert("Avatar może mieć maksymalnie 2mb.");
+      if (file.size > 5000000) {
+        return alert("Your avatar size is too large");
       }
       saveImageToDB(file, nick);
     }

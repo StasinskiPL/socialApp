@@ -27,7 +27,7 @@ const AddPost:React.FC = () => {
       dispatch(AddPostAction(post));
       setText("");
     } else {
-      alert("post musi mieć conajmniej pięć znaków");
+      alert("Post have to containst at least 5 characters");
     }
   };
 
@@ -49,7 +49,7 @@ const AddPost:React.FC = () => {
             <Card.Footer className="d-flex bg-white p-2 justify-content-end">
               <Button onClick={publishPostHandler} size="sm" variant="dark">
                 <FaShare className="mr-1 mt-1 align-top" />
-                Opublikuj
+                publish
               </Button>
             </Card.Footer>
           </Card>

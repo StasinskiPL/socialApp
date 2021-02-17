@@ -39,8 +39,8 @@ const Infos = () => {
   return (
     <Col className="p-3" lg="5">
       <UserInfo nick={nick} createdAt={createdAt} />
-      <FollowList title="Obserwuje" slug="obserwuje" list={following} />
-      <FollowList title="Obserwują" slug="obserwujacy" list={followers} />
+      <FollowList title="Following" slug="following" list={following} />
+      <FollowList title="Followers" slug="followers" list={followers} />
     </Col>
   );
 };

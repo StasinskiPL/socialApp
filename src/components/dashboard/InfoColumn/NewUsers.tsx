@@ -30,7 +30,7 @@ const NewUsers = () => {
 
   return (
     <div className="profil-infos p-2  mt-3 rounded bg-white">
-      <h4 className="p-2 pb-0 mb-1">Nowi Użytkownicy</h4>
+      <h4 className="p-2 pb-0 mb-1">New Users</h4>
       <Container fluid>
         <Row>
           {newUsers.map((user, index) => (

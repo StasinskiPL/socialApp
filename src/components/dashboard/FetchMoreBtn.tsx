@@ -27,7 +27,7 @@ const FetchMoreBtn: React.FC<Props> = ({ postType }) => {
       className="w-100 mt-3 mb-5"
       variant="outline-dark"
     >
-      Załaduj więcej postów
+      Load more posts
     </Button>
   );
 };

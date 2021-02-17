@@ -1,8 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
-import 'moment/locale/pl' 
 import PrivateRoute from "../routes/PrivateRoute";
 import { setUser } from "../store/authSlice";
 import { Container } from "react-bootstrap";
@@ -22,9 +20,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const { logged } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-
-
-  moment.locale("es")
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -77,8 +72,8 @@ function App() {
       <main className="bg-light">
         <Switch>
           <Suspense fallback={<Loading />}>
-            <Route path="/rejestracja" render={() => <Registration />} />
-            <Route path="/logowanie" render={() => <Login />} />
+            <Route path="/registration" render={() => <Registration />} />
+            <Route path="/login" render={() => <Login />} />
             <PrivateRoute path="/user/:nick/:type" exact component={UserList} />
             <PrivateRoute path="/user/:nick" exact component={Profil} />
             <PrivateRoute path="/search/:value" component={UserList} />

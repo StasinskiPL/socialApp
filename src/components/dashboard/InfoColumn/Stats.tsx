@@ -15,7 +15,7 @@ const Stats = () => {
     <div className="dashboard-info p-2 px-3">
       <h4 className="text-center">Stats</h4>
       <p>
-        Zarejestrowani: <span className="h5 pl-2">{usersCount}</span>
+        Users count: <span className="h5 pl-2">{usersCount}</span>
       </p>
     </div>
   );
