@@ -58,7 +58,7 @@ function App() {
       unsubscribe();
     };
   }, [dispatch]);
-  if (loading) {
+  if (!loading) {
     return (
       <Container className="w-100 d-flex justify-content-center align-items-center loadingBox">
         <Loading />

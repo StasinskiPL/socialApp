@@ -22,6 +22,7 @@ const NavbarSearch: React.FC<Props> = ({ width }) => {
     <Form
       onSubmit={submitHandler}
       inline
+      data-testid='searchform'
       className={`bg-light w-100 ${width < 480 ? "p-3" : null}`}
     >
       <InputGroup className="w-100">
@@ -29,6 +30,7 @@ const NavbarSearch: React.FC<Props> = ({ width }) => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           type="text"
+          data-testid="search-input"
           placeholder="Search"
           className="rounded-0"
         />
@@ -36,6 +38,7 @@ const NavbarSearch: React.FC<Props> = ({ width }) => {
           <Button
             type="submit"
             variant="outline-ligth"
+            data-testid="form-search-btn"
             size="sm"
             className="rounded-0"
           >

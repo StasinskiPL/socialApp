@@ -6,6 +6,8 @@ import { registerUser } from "../../store/authSlice";
 import { RootState } from "../../store/reducer";
 import Loading from "../ui/Loading";
 import "./auth.scss";
+
+
 const Registration = () => {
   const [email, setEmail] = useState("");
   const [nick, setNick] = useState("");
@@ -28,7 +30,7 @@ const Registration = () => {
     setError(errorMessage);
   }, [errorMessage]);
 
-  const RegistrationUserHandler = (e: React.FormEvent) => {
+  const registrationUserHandler = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (!email.trim() || password.trim().length < 6) {
@@ -39,16 +41,16 @@ const Registration = () => {
       setError("Nick have to be longer then 5 characters");
     } else if (nick.trim().length > 20) {
       setError("Nick can't have more then 20 characters");
-    }else{
-        dispatch(registerUser({email,password,nick}))
+    } else {
+      dispatch(registerUser({ email, password, nick }));
     }
-    setPassword("")
-    setConfirm("")
+    setPassword("");
+    setConfirm("");
   };
 
   return (
     <Form
-      onSubmit={RegistrationUserHandler}
+      onSubmit={registrationUserHandler}
       className="d-flex p-2 flex-column mt-5 align-items-center authForm"
     >
       {loading ? (
@@ -71,7 +73,7 @@ const Registration = () => {
               placeholder="nick"
               type="text"
               value={nick}
-              onChange={(e) =>setNick(e.target.value)}
+              onChange={(e) => setNick(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="w-100">
@@ -111,16 +113,10 @@ const Registration = () => {
           >
             Sign up
           </Button>
-          <Link
-            to="/login"
-            className="btn-dark btn w-100 mt-3"
-            type="submit"
-          >
+          <Link to="/login" className="btn-dark btn w-100 mt-3" type="submit">
             Have an account ? Login!
           </Link>
-          <p className="text-center mt-2">
-           &copy; Albicja🚀
-          </p>
+          <p className="text-center mt-2">&copy; Albicja🚀</p>
         </>
       )}
     </Form>
