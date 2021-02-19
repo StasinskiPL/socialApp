@@ -6,6 +6,8 @@ import { loginUser } from "../../store/authSlice";
 import { RootState } from "../../store/reducer";
 import Loading from "../ui/Loading";
 import "./auth.scss";
+
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,9 +84,7 @@ const Login = () => {
           >
             Don't have an account ? Sign up!
           </Link>
-          <p className="text-center mt-2">
-            &copy; Albicja🚀
-          </p>
+          <p className="text-center mt-2">&copy; Albicja🚀</p>
         </>
       )}
     </Form>

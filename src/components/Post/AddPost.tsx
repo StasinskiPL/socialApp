@@ -6,8 +6,7 @@ import { RootState } from "../../store/reducer";
 import { v4 as uuid } from "uuid";
 import { addPost as AddPostAction } from "../../store/postSlice/postSlice";
 
-
-const AddPost:React.FC = () => {
+const AddPost: React.FC = () => {
   const [text, setText] = useState("");
 
   const { userId, userNick } = useSelector((state: RootState) => state.auth);
@@ -15,7 +14,7 @@ const AddPost:React.FC = () => {
 
   const publishPostHandler = () => {
     if (text.trim().length > 4) {
-      const post : Post = {
+      const post: Post = {
         text: text,
         authorId: userId as string,
         date: new Date().getTime(),

@@ -42,9 +42,9 @@ const useUserAvatar = (userId: string): Return => {
             setImageUrl(avatarUrl);
           }
         })
-        .catch((err) => {
-        }).finally(()=>{
-          setLoading(false)
+        .catch((err) => {})
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [userId]);
