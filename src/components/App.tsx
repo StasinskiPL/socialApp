@@ -59,12 +59,8 @@ function App() {
     };
   }, [dispatch]);
 
-  if (!loading) {
-    return (
-      <Container className="w-100 d-flex justify-content-center align-items-center loadingBox">
-        <Loading />
-      </Container>
-    );
+  if (loading) {
+    return <Loading />;
   }
 
   return (

@@ -1,1 +1,16 @@
+@import "~bootstrap/scss/bootstrap";
 @import "base";
+
+.jc-start{justify-content: flex-start;}
+.jc-center{justify-content: center;}
+.jc-end{justify-content: flex-end;}
+
+// align items
+.ai-left{align-items: flex-start;}
+.ai-center{align-items: center;}
+.ai-right{align-items: flex-end;}
+
+// aligh content
+.ac-left{align-items: flex-start;}
+.ac-center{align-items: center;}
+.ac-right{align-items: flex-end;}
