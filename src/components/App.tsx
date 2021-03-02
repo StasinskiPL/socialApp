@@ -3,7 +3,6 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PrivateRoute from "../routes/PrivateRoute";
 import { setUser } from "../store/authSlice";
-import { Container } from "react-bootstrap";
 import { auth, db } from "../firebase";
 import { RootState } from "../store/reducer";
 import Dashboard from "./dashboard/Dashboard";
