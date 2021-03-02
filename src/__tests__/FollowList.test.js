@@ -1,7 +1,6 @@
 import FollowList from "../components/user/ProfilBody/ProfilInfos/FollowList";
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import { Link } from "react-router-dom";
 import routeData from "react-router";
 
 const mockLocation = {
@@ -38,6 +37,6 @@ describe("<FollowList>", () => {
   });
 
   it("should have length 2", () => {
-    expect(wrapper.find('div')).toHaveLength(3);
+    expect(wrapper.find("div")).toHaveLength(3);
   });
 });
