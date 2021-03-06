@@ -59,13 +59,11 @@ const Avatar: React.FC<Props> = ({ isOwnProfil, nick }) => {
       <div
         tabIndex={0}
         className={`profil__avatar-img ${isOwnProfil && "own"}`}
-        onClick={clickFileInput}
-      >
+        onClick={clickFileInput}>
         <img
           loading="lazy"
           src={imageUrl ? imageUrl : avatarUrl}
-          alt="avatar"
-        ></img>
+          alt="avatar"></img>
         {isOwnProfil && (
           <>
             <div className="profil__avatar-file">

@@ -33,11 +33,11 @@ const AddPost: React.FC = () => {
   return (
     <>
       <Tabs defaultActiveKey="share" id="uncontrolled-tab-example">
-        <Tab eventKey="share" title="Podzile się">
+        <Tab eventKey="share" title="Share">
           <Card className="border-top-0">
             <Card.Body className="p-0">
               <Form.Control
-                placeholder="Co się dzieje?"
+                placeholder="what is going on?"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="w-100 border-0 p-3"
